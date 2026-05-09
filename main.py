@@ -55,9 +55,7 @@ async def sayang(ctx):
 
     # cek apakah role disebut
 
-    mentioned_role_ids = [role.id for role in ctx.message.role_mentions]
-
-    if REQUIRED_ROLE_ID not in mentioned_role_ids:
+    if bot.user not in ctx.message.mentions:
         return
 
     if ctx.author.id != OWNER_ID:
