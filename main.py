@@ -31,7 +31,7 @@ OWNER_ID = 1492853189970755664  # GANTI DENGAN USER ID KAMU
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="halo", intents=intents)
+bot = commands.Bot(command_prefix="halo ", intents=intents)
 
 # Saat bot online
 @bot.event
