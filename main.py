@@ -49,11 +49,17 @@ async def on_ready():
 # Command khusus owner
 # =========================
 
+REQUIRED_ROLE_NAME = "Denia"
 @bot.command()
 async def sayang(ctx):
 
+    # cek apakah role disebut
+    mentioned_roles = [role.name for role in ctx.message.role_mentions]
+
+    if REQUIRED_ROLE_NAME not in mentioned_roles:
+        return
+
     if ctx.author.id != OWNER_ID:
-        await ctx.send("Maaf kamu bukan suamiku, aku malas jawab")
         return
 
     await ctx.send("Halo suamiku ♡")
