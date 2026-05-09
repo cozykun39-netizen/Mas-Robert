@@ -31,7 +31,7 @@ OWNER_ID = 1492853189970755664  # GANTI DENGAN USER ID KAMU
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="halo", intents=intents)
 
 # Saat bot online
 @bot.event
@@ -50,7 +50,7 @@ async def on_ready():
 # =========================
 
 @bot.command()
-async def ping(ctx):
+async def sayang(ctx):
 
     if ctx.author.id != OWNER_ID:
         await ctx.send("Maaf kamu bukan suamiku, aku malas jawab")
