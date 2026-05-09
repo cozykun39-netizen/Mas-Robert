@@ -2,7 +2,6 @@ import discord
 import os
 from flask import Flask
 from threading import Thread
-from discord.ext import commands
 
 # =========================
 # Flask kecil untuk Render
@@ -26,60 +25,73 @@ def keep_alive():
 # Discord Bot
 # =========================
 
-OWNER_ID = 1492853189970755664  # GANTI DENGAN USER ID KAMU
+OWNER_ID = 1492853189970755664
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="halo ", intents=intents)
+client = discord.Client(intents=intents)
 
-# Saat bot online
-@bot.event
+# =========================
+# Saat Bot Online
+# =========================
+
+@client.event
 async def on_ready():
-    await bot.change_presence(
+
+    await client.change_presence(
         status=discord.Status.idle,
         activity=discord.CustomActivity(
             name="♡ Aku cinta suamiku ♡"
         )
     )
 
-    print(f'Logged in as {bot.user}')
+    print(f'Logged in as {client.user}')
 
 # =========================
-# Command khusus owner
+# Chat Natural
 # =========================
 
-REQUIRED_ROLE_ID = 1502609572622503937
-@bot.command()
-async def sayang(ctx):
+@client.event
+async def on_message(message):
 
-    # cek apakah role disebut
-
-    if bot.user not in ctx.message.mentions:
+    # jangan respon diri sendiri/bot lain
+    if message.author.bot:
         return
 
-    if ctx.author.id != OWNER_ID:
+    text = message.content.lower()
+
+    # =====================
+    # hanya owner
+    # =====================
+
+    if message.author.id != OWNER_ID:
         return
 
-    await ctx.send("Halo suamiku ♡")
+    # =====================
+    # harus mention bot
+    # =====================
 
-# Command ganti status
-@bot.command()
-async def status(ctx, *, text):
-
-    if ctx.author.id != OWNER_ID:
+    if client.user not in message.mentions:
         return
 
-    await bot.change_presence(
-        status=discord.Status.idle,
-        activity=discord.CustomActivity(name=text)
-    )
+    # =====================
+    # halo sayang
+    # =====================
 
-    await ctx.send(f'Status diubah menjadi: {text}')
+    if "halo sayang" in text:
+        await message.channel.send("Halo suamiku ♡")
+
+    # =====================
+    # lagi apa sayang
+    # =====================
+
+    elif "lagi apa sayang?" in text:
+        await message.channel.send("Mikirin kamu ♡")
 
 # =========================
 # Run
 # =========================
 
 keep_alive()
-bot.run(os.getenv("TOKEN"))
+client.run(os.getenv("TOKEN"))
