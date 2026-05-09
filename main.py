@@ -8,7 +8,7 @@ client = discord.Client(intents=intents)
 @client.event
 async def on_ready():
     await client.change_presence(
-        activity=discord.CustomActivity(name="watching silently...")
+        activity=discord.CustomActivity(name="Aku cinta suamiku ♡")
     )
     print(f'Logged in as {client.user}')
 
