@@ -2,8 +2,12 @@ import discord
 import os
 from flask import Flask
 from threading import Thread
+from discord.ext import commands
 
-# Flask app kecil
+# =========================
+# Flask kecil untuk Render
+# =========================
+
 app = Flask('')
 
 @app.route('/')
@@ -18,17 +22,59 @@ def keep_alive():
     t = Thread(target=run_web)
     t.start()
 
-# Discord bot
-intents = discord.Intents.default()
-client = discord.Client(intents=intents)
+# =========================
+# Discord Bot
+# =========================
 
-@client.event
+OWNER_ID = 1492853189970755664  # GANTI DENGAN USER ID KAMU
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+# Saat bot online
+@bot.event
 async def on_ready():
-    await client.change_presence(
-        status=discord.Status.idle
-        activity=discord.CustomActivity(name="♡ Aku cinta suamiku♡ ")
+    await bot.change_presence(
+        status=discord.Status.idle,
+        activity=discord.CustomActivity(
+            name="♡ Aku cinta suamiku ♡"
+        )
     )
-    print(f'Logged in as {client.user}')
+
+    print(f'Logged in as {bot.user}')
+
+# =========================
+# Command khusus owner
+# =========================
+
+@bot.command()
+async def ping(ctx):
+
+    if ctx.author.id != OWNER_ID:
+        await ctx.send("Maaf kamu bukan suamiku, aku malas jawab")
+        return
+
+    await ctx.send("Halo suamiku ♡")
+
+# Command ganti status
+@bot.command()
+async def status(ctx, *, text):
+
+    if ctx.author.id != OWNER_ID:
+        return
+
+    await bot.change_presence(
+        status=discord.Status.idle,
+        activity=discord.CustomActivity(name=text)
+    )
+
+    await ctx.send(f'Status diubah menjadi: {text}')
+
+# =========================
+# Run
+# =========================
 
 keep_alive()
-client.run(os.getenv("TOKEN"))
+bot.run(os.getenv("TOKEN"))
