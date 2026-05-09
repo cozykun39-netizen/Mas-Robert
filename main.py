@@ -49,14 +49,15 @@ async def on_ready():
 # Command khusus owner
 # =========================
 
-REQUIRED_ROLE_NAME = "Denia"
+REQUIRED_ROLE_ID = 1502609572622503937
 @bot.command()
 async def sayang(ctx):
 
     # cek apakah role disebut
-    mentioned_roles = [role.name for role in ctx.message.role_mentions]
 
-    if REQUIRED_ROLE_NAME not in mentioned_roles:
+    mentioned_role_ids = [role.id for role in ctx.message.role_mentions]
+
+    if REQUIRED_ROLE_ID not in mentioned_role_ids:
         return
 
     if ctx.author.id != OWNER_ID:
