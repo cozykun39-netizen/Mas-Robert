@@ -89,6 +89,9 @@ async def on_message(message):
     elif "lagi apa sayang?" in text:
         await message.channel.send("Mikirin kamu ♡")
 
+    elif "aku lagi sedih sayang" in text:
+        await message.channel.send("Sedih kenapa saang? yuk sini sama aku aja sebelum tidur cupcup ♡")
+
 # =========================
 # Run
 # =========================
